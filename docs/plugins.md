@@ -1,5 +1,37 @@
 # 插件 / skill — 第三方记录
 
+## mattpocock-skills
+
+- 仓库：https://github.com/mattpocock/skills
+- 安装说明：https://github.com/mattpocock/skills#installation-30-second-setup
+- 一套工程师工作流 skill：先 `setup-matt-pocock-skills` 初始化仓库，然后 `grill-me` 盘需求 → `to-spec` 出规格 → `to-tickets` 拆票 → `implement` + `tdd` 实现 → `code-review` + `pr` 收尾。
+
+### Codex 装法（插件，自动更新）
+
+```bash
+codex plugin marketplace add mattpocock/skills
+codex plugin add mattpocock-skills@mattpocock
+```
+
+启动时自动更新。
+
+### 两种装法只能选一种
+
+| 方式 | 命令 | 特点 |
+|---|---|---|
+| 插件（推荐） | `codex plugin add mattpocock-skills@mattpocock` | 自动更新，文件在缓存里不可改 |
+| skills.sh | `npx skills add mattpocock/skills` | 拷可编辑文件，要手动更新 |
+
+**两个都装 = 每个 skill 出现两份**。Codex 上选插件。
+
+### 坑
+
+1. 仓库现在有 **30 来个** skill，不是早期那 7 个。`manifest.json` 的 `provides` 列的是常用的一批，装完以 `codex plugin list` 实际输出为准。
+2. `setup-matt-pocock-skills` 是**每个仓库跑一次**，不是全局。它要问你 issue tracker 放哪、triage 五个角色的标签叫什么、`CONTEXT.md` / ADR 放哪。
+3. 本机 `~/.agents/skills/` 里那 7 个是早期用 skills.sh 装的，**Codex 读不到**（Codex 只读 `~/.codex/skills` 和仓库里的 `.codex/skills`）。要迁的话装插件，别手动拷。
+
+---
+
 ## i-have-adhd
 
 - 仓库：https://github.com/ayghri/i-have-adhd

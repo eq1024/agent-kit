@@ -90,6 +90,33 @@
       "verify": "codex mcp list 里出现 cloudbase；工具数不为 0（为 0 见官方 FAQ）；能执行 queryEnv 拿到环境信息"
     },
     {
+      "id": "mattpocock-skills",
+      "kind": "plugin",
+      "marketplace": "mattpocock",
+      "source": "https://github.com/mattpocock/skills",
+      "docs": "https://github.com/mattpocock/skills#installation-30-second-setup",
+      "follow": "latest",
+      "provides": [
+        "ask-matt",
+        "grill-me",
+        "grill-with-docs",
+        "grilling",
+        "handoff",
+        "teach",
+        "tdd",
+        "to-spec",
+        "to-tickets",
+        "triage",
+        "implement",
+        "code-review",
+        "diagnosing-bugs",
+        "domain-modeling",
+        "setup-matt-pocock-skills"
+      ],
+      "hint": "Codex 用插件市场装：`codex plugin marketplace add mattpocock/skills` 然后 `codex plugin add mattpocock-skills@mattpocock`，启动时自动更新。关键：同一台机器上**只能选一种装法**，插件和 `npx skills add mattpocock/skills`（skills.sh 拷可编辑文件）二选一，否则每个 skill 会重复两份。注意这个仓库现在有 30 来个 skill，比早期那 7 个多很多；`setup-matt-pocock-skills` 是每个仓库跑一次的初始化（issue tracker、triage 标签、domain docs 目录）。",
+      "verify": "codex plugin list 里有 mattpocock-skills；新线程里 /tdd 或 $grill-me 能触发"
+    },
+    {
       "id": "i-have-adhd",
       "kind": "plugin",
       "source": "https://github.com/ayghri/i-have-adhd",
@@ -131,8 +158,7 @@
   ],
 
   "notUsed": [
-    { "id": "frontend-design", "source": "https://github.com/anthropics/skills", "why": "之前装在 ~/.agents，Codex 用不到" },
-    { "id": "mattpocock-skills", "source": "https://github.com/mattpocock/skills", "why": "7 个 skill，之前装在 ~/.agents，Codex 没装" }
+    { "id": "frontend-design", "source": "https://github.com/anthropics/skills", "why": "之前装在 ~/.agents，Codex 用不到" }
   ],
 
   "machineSpecific": [

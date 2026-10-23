@@ -46,7 +46,14 @@ node cli.mjs doctor     # 体检
 
 详细端点、跨端差异、已知坑：`docs/mcp.md`。
 
-插件：i-have-adhd（Codex 插件市场装，always-on 段落已内置在 `AGENTS.md` 里）——见 `docs/plugins.md`。
+插件（都走 Codex 插件市场）：
+
+| 插件 | 装法 |
+|---|---|
+| mattpocock-skills | `codex plugin add mattpocock-skills@mattpocock`，启动自动更新 |
+| i-have-adhd | `codex plugin add i-have-adhd@i-have-adhd`，不自动激活；always-on 段已内置在 `AGENTS.md` |
+
+细节见 `docs/plugins.md`。
 
 ## 你怎么维护
 
