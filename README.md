@@ -1,24 +1,18 @@
 # agent-kit
 
-一个仓库，一台新机器的 agent 环境。
+Codex 全局环境清单。一个仓库，一台新机器，mac / linux / windows 三端同一套。
 
-自己的东西（skill / 扩展 / 配置）用代码装，第三方（别人的 skill、需要 token 的 MCP）只记意图，由 agent 现查官方文档装。
+自建的（自己的 skill、AGENTS.md）用代码装；第三方的（别人的 skill、需要 token 的 MCP）只记意图，由 agent 现查官方文档装。
 
-## 三条入口
-
-```bash
-# 已经 clone 到本地
-node cli.mjs apply && node cli.mjs tasks
-
-# 没 clone：让 agent 读文件自己装
-#   "读 https://github.com/<you>/agent-kit 的 INSTALL.md，按里面的步骤装"
-```
-
-发布 npm 之后（待办）：
+## 用法
 
 ```bash
-npx -y @v/agent-kit apply
+node cli.mjs apply      # 装自建部分
+node cli.mjs tasks      # 看还需要 agent 做什么
+node cli.mjs doctor     # 体检
 ```
+
+或者直接把仓库地址丢给 agent：见 `PROMPT.md`。
 
 ## 命令
 
@@ -30,18 +24,30 @@ npx -y @v/agent-kit apply
 | `node cli.mjs doctor` | 本机 vs 清单的差异 |
 | `node cli.mjs list` | 打印清单 |
 
+## 装到哪
+
+全部落在 `~/.codex/`：
+
+```
+~/.codex/skills/      自建 3 个 + 第三方 skill
+~/.codex/AGENTS.md    全局指令
+~/.codex/config.toml  MCP 配置（agent 写入，代码不碰）
+```
+
 ## 你怎么维护
 
-1. 加/改自己的 skill → 改 `skills/` 目录
-2. 加第三方 skill 或 MCP → 在 `manifest.json` 的 `agentTasks` 加一条，只写来源、文档、要点，**不写命令**
+1. 改自己的 skill → 改 `skills/` 目录
+2. 加第三方 skill / MCP → 在 `manifest.json` 的 `agentTasks` 加一条，只写来源、文档、要点，**不写命令**
 3. `git push`
 
-## 新机器
+## 跨端
 
-1. 装 Node 18+
-2. clone 仓库
-3. 让 agent 读 `INSTALL.md` 执行
+代码只用 Node 内置模块，路径全部经 `lib/paths.mjs` 的 `expand()`，仓库里的路径一律写成 `~/`。换行由 `.gitattributes` 固定 LF。`~/.agent-kit.env` 在 mac/linux 上自动 `chmod 600`。
 
 ## 密钥
 
-只放在 `~/.agent-kit.env`，不进仓库。第一次 `apply` 会自动生成模板。
+只放 `~/.agent-kit.env`，不进仓库。第一次 `apply` 自动生成模板。
+
+## 不进仓库的东西
+
+`~/.codex/config.toml` 的 model / notify / projects / node_repl、`auth.json`、`rules/default.rules` —— 都带本机绝对路径或登录态。清单里的 `machineSpecific` 字段有记录。

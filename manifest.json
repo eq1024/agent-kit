@@ -1,11 +1,14 @@
 {
-  "version": 1,
+  "version": 2,
   "name": "agent-kit",
+  "description": "Codex 全局环境清单：自建的用代码装，第三方交给 agent 按官方文档装。三端通用。",
+  "target": "codex",
 
   "targets": {
-    "pi": { "skills": "~/.pi/agent/skills", "root": "~/.pi/agent" },
-    "claude": { "skills": "~/.claude/skills", "root": "~/.claude" },
-    "agents": { "skills": "~/.agents/skills", "root": "~/.agents" }
+    "codex": {
+      "root": "~/.codex",
+      "skills": "~/.codex/skills"
+    }
   },
 
   "apply": [
@@ -13,51 +16,29 @@
       "id": "bug-debugging",
       "kind": "skill",
       "from": "skills/bug-debugging",
-      "targets": ["pi", "claude"],
+      "targets": ["codex"],
       "note": "自己写的：证据驱动的调试流程"
     },
     {
       "id": "context7-mcp",
       "kind": "skill",
       "from": "skills/context7-mcp",
-      "targets": ["pi", "claude"],
+      "targets": ["codex"],
       "note": "自己写的：教 agent 怎么用 context7 查库文档"
     },
     {
       "id": "tapd-workbench",
       "kind": "skill",
       "from": "skills/tapd-workbench",
-      "targets": ["pi", "claude"],
+      "targets": ["codex"],
       "note": "自己写的：TAPD 工作项查询"
     },
     {
-      "id": "pi-extensions",
-      "kind": "dir",
-      "from": "config/pi-extensions",
-      "to": "~/.pi/agent/extensions",
-      "note": "orca 状态栏 / prefill / spinner"
-    },
-    {
-      "id": "claude-rules",
-      "kind": "dir",
-      "from": "config/claude-rules",
-      "to": "~/.claude/rules",
-      "note": "Claude rules 目录"
-    },
-    {
-      "id": "claude-CLAUDE.md",
+      "id": "codex-AGENTS.md",
       "kind": "file",
-      "from": "config/claude-CLAUDE.md",
-      "to": "~/.claude/CLAUDE.md",
-      "note": "Claude 全局说明"
-    },
-    {
-      "id": "pi-settings",
-      "kind": "merge-json",
-      "from": "config/pi-settings.patch.json",
-      "to": "~/.pi/agent/settings.json",
-      "mergeArrays": true,
-      "note": "只合并 packages，不动其他字段"
+      "from": "config/codex-AGENTS.md",
+      "to": "~/.codex/AGENTS.md",
+      "note": "全局指令。覆盖前备份。"
     }
   ],
 
@@ -66,55 +47,32 @@
       "id": "design-taste-frontend",
       "kind": "skill",
       "source": "https://github.com/Leonxlnx/taste-skill",
-      "docs": "https://github.com/Leonxlnx/taste-skill#install",
-      "targets": ["pi", "claude", "agents"],
+      "docs": "https://github.com/Leonxlnx/taste-skill",
+      "targets": ["codex"],
       "follow": "latest",
-      "hint": "前端设计品味 skill，带 library/ 和 references/ 大目录。装到三个工具时用同一份，不要重复下载。"
-    },
-    {
-      "id": "frontend-design",
-      "kind": "skill",
-      "source": "https://github.com/anthropics/skills",
-      "docs": "https://github.com/anthropics/skills",
-      "targets": ["agents"],
-      "follow": "latest",
-      "hint": "Anthropic 官方 example-skills 里的 frontend-design。"
-    },
-    {
-      "id": "mattpocock-skills",
-      "kind": "skill",
-      "source": "https://github.com/mattpocock/skills",
-      "docs": "https://github.com/mattpocock/skills",
-      "targets": ["agents", "claude"],
-      "follow": "latest",
-      "provides": ["grill-me", "grill-with-docs", "handoff", "tdd", "teach", "to-spec", "setup-matt-pocock-skills"],
-      "hint": "一个仓库出多个 skill。装完核对 provides 列表是否齐全。"
+      "hint": "前端设计品味 skill，带 library/ 和 references/ 大目录（约 2.4MB）。装到 ~/.codex/skills/design-taste-frontend。"
     },
     {
       "id": "context7-mcp",
       "kind": "mcp",
       "docs": "https://github.com/upstash/context7#installation",
       "needs": ["CONTEXT7_API_KEY"],
-      "hint": "HTTP 型 MCP，endpoint https://mcp.context7.com/mcp，Authorization: Bearer <key>。key 由用户去 dashboard 自取，不要复用旧机器的。"
+      "targets": ["codex"],
+      "hint": "HTTP 型。优先用 `codex mcp add context7 --url https://mcp.context7.com/mcp --header \"Authorization: Bearer $KEY\"`；没有 codex CLI 就写进 ~/.codex/config.toml 的 [mcp_servers.context7]。key 由用户自己取，不要复用别的机器的。"
     },
     {
       "id": "playwright-mcp",
       "kind": "mcp",
       "docs": "https://github.com/microsoft/playwright-mcp",
-      "hint": "stdio 型，npx -y @playwright/mcp@latest。首次跑可能要下载浏览器内核。"
+      "targets": ["codex"],
+      "hint": "stdio 型，npx -y @playwright/mcp@latest。注意：Windows 上用 cmd /c 包裹，mac/linux 直接 npx。首次运行可能下载浏览器内核。"
     },
     {
       "id": "codegraph-mcp",
       "kind": "mcp",
       "docs": "https://www.npmjs.com/package/@colbymchenry/codegraph",
-      "hint": "stdio 型，先全局装 @colbymchenry/codegraph，再 codegraph serve --mcp。"
-    },
-    {
-      "id": "i-have-adhd",
-      "kind": "package",
-      "source": "https://github.com/ayghri/i-have-adhd",
-      "docs": "https://github.com/ayghri/i-have-adhd",
-      "hint": "pi 的 package，走 pi 自己的 package 安装机制，写进 settings.json 的 packages 数组。"
+      "targets": ["codex"],
+      "hint": "stdio 型。先全局装 @colbymchenry/codegraph，再 codegraph serve --mcp。"
     }
   ],
 
@@ -125,5 +83,16 @@
       "howToGet": "https://context7.com/dashboard",
       "envFile": "~/.agent-kit.env"
     }
+  ],
+
+  "notForCodex": [
+    { "id": "frontend-design", "source": "https://github.com/anthropics/skills", "why": "之前装在 ~/.agents，Codex 用不到" },
+    { "id": "mattpocock-skills", "source": "https://github.com/mattpocock/skills", "why": "7 个 skill，之前装在 ~/.agents，Codex 没装。要的话在 agentTasks 里加一条" }
+  ],
+
+  "machineSpecific": [
+    "config.toml 里的 model / model_provider / notify / projects / node_repl 都带本机绝对路径，不进仓库",
+    "~/.codex/rules/default.rules 是会话自动生成的审批记录，不进仓库",
+    "~/.codex/auth.json 是登录态，不进仓库"
   ]
 }

@@ -1,48 +1,63 @@
-# INSTALL.md — 给 agent 的执行手册
+# INSTALL.md — 给 agent 的执行手册（Codex）
 
-这个仓库是某人的 agent 环境清单。你的任务是让当前机器达到清单状态。
+目标：让这台机器的 Codex 全局环境达到 `manifest.json` 的状态。mac / linux / windows 都适用。
 
 **两条铁律**
 
-1. `manifest.apply` 里的东西由代码装，直接跑命令。不要手写文件。
-2. `manifest.agentTasks` 里的东西**没有写死的安装命令**，因为官方文档会变。你必须现查文档再执行。
+1. `manifest.apply` 的东西由代码装，直接跑命令，不要手写文件。
+2. `manifest.agentTasks` 的东西**没有写死的安装命令**，官方文档会变，你必须现查再执行。
 
 ---
 
-## 第 0 步：先看清单，再动手
+## 第 0 步：确认前提
+
+```bash
+node --version    # 需要 >= 18
+ls ~/.codex       # 需要存在：config.toml、skills/
+```
+
+`~/.codex` 不存在就先让用户装 Codex 桌面端并登录一次，然后停下来等。
+
+## 第 1 步：看清单，报给用户
 
 ```bash
 node cli.mjs list
 ```
 
-把结果报给用户，一句话说明要做什么。用户确认后再往下。
+一句话说明要做什么，用户确认后再动手。
 
-## 第 1 步：跑自建部分（确定性，幂等）
+## 第 2 步：跑自建部分（确定性，幂等）
 
 ```bash
-node cli.mjs apply --dry-run   # 先看会改什么
-node cli.mjs apply             # 真跑
+node cli.mjs apply --dry-run
+node cli.mjs apply
 ```
 
-覆盖前会自动备份成 `<目标>.bak.<时间戳>`，同一目标只保留最近 3 份。`merge-json` 类型只合并不覆盖，其他字段保留。
+会做四件事：把 3 个自建 skill 放进 `~/.codex/skills/`、写 `~/.codex/AGENTS.md`。
 
-失败不要强来。把失败项原样告诉用户。
+覆盖前自动备份成 `<目标>.bak.<时间戳>`，每个目标只留最近 3 份。失败不要强来，原样报给用户。
 
-## 第 2 步：逐项处理第三方（这部分只有你能做）
+## 第 3 步：逐项处理第三方
 
 ```bash
 node cli.mjs tasks
 ```
 
-对每一个任务：
+每一项：
 
-1. 打开 `文档:` 那个链接，读**当前**的安装方式。仓库里记的只是来源和要点，不是命令。
-2. 按文档执行。装到清单要求的每个 target（pi / claude / agents，见 `manifest.targets`）。
-3. 需要密钥的（`需要密钥:` 那行）：
-   - 先看 `~/.agent-kit.env` 里有没有填好的值；
-   - 没有就**停下来问用户**，告诉用户去哪拿（`manifest.tokens[].howToGet`）；
-   - 拿到后写进 `~/.agent-kit.env`，**不要**写进任何仓库文件、不要贴进聊天记录。
-4. 装完把结果写进 `~/.agent-kit.state.json` 的 `agentTasks`：
+1. 打开 `文档:` 链接，读**当前**安装方式。仓库里只有来源和要点，没有命令。
+2. 按文档装。skill 装到 `~/.codex/skills/<name>/`（必须包含 `SKILL.md`）。
+3. MCP 优先用 Codex 官方命令：
+
+```bash
+codex mcp add <name> --url <url>          # HTTP 型
+codex mcp add <name> -- <command> <args>  # stdio 型
+```
+
+没有 `codex` CLI 时，才改 `~/.codex/config.toml`：先备份，再在末尾追加 `[mcp_servers.<name>]` 表。**不要重写整个文件**，里面有 `model_provider`、`notify`、`projects` 等本机专属配置。
+
+4. 需要密钥的：先看 `~/.agent-kit.env` 有没有值；没有就停下来问用户要（去哪拿写在 `manifest.tokens[].howToGet`）。拿到后写进 `~/.agent-kit.env`，不要写进仓库，也不要贴进聊天记录。
+5. 装完写进 `~/.agent-kit.state.json`：
 
 ```json
 {
@@ -52,32 +67,38 @@ node cli.mjs tasks
       "version": "1.2.3",
       "sourceCommit": "abc1234",
       "docSeenAt": "2026-01-01",
-      "where": ["~/.pi/agent/mcp.json"]
+      "where": ["~/.codex/config.toml"]
     }
   }
 }
 ```
 
-这一步不能省。没有它，下次没人知道这台机器上到底装了什么版本。
+这一步不能省。没有它，下次没人知道这台机器上是什么版本。
 
-## 第 3 步：体检
+## 第 4 步：体检
 
 ```bash
 node cli.mjs doctor
 ```
 
-`MISS` 表示还没有，`WARN` 表示装了但和记录不一致（本地被改过，或密钥缺失）。逐项修完再交差。
+`MISS` = 还没有，`WARN` = 装了但和记录不一致或密钥缺失。逐项修完再交差。
 
 ---
 
-## 几个必须知道的事实
+## 跨平台差异（必须看）
 
-- **不要整文件覆盖 `~/.claude.json`**。它带着用户的项目列表和对话历史。Claude 的 MCP 要么用 `claude mcp add --scope user`，要么读改写并先备份。
-- **MCP 配置分散**：pi 读 `~/.pi/agent/mcp.json`，Claude 读 `~/.claude.json`（`mcpServers`）。两边都要配。
-- **第三方 skill 用 `follow: latest`**，装最新版即可，不必对齐别的机器。版本差异靠 `state.json` 里的 commit 追溯。
-- **同一份 skill 不要下载多次**。装到 pi / claude / agents 三个位置时，用复制或链接同一份目录。
-- **绝不 `git push` 任何 token**。`.agent-kit.env` 是唯一的密钥落点。
+| 项目 | windows | mac / linux |
+|---|---|---|
+| npx 型 MCP 命令 | `cmd` + `/c npx -y ...` | 直接 `npx -y ...` |
+| 路径写法 | 代码里统一 `~/` 和正斜杠，运行时展开 | 同 |
+| 文件权限 | 无需处理 | `~/.agent-kit.env` 必须 `chmod 600` |
+| 换行 | 仓库用 `.gitattributes` 固定 LF | 同 |
+| 目录链接 | junction 需管理员，**别用**，直接复制 | symlink 可选 |
 
-## 用户只维护两个文件
+## 绝对不能碰的文件
 
-`manifest.json` 和 `INSTALL.md`。代码只做 `apply` / `doctor` / `tasks` 三件事。改完 push，其他机器重跑本文件即可。
+- `~/.codex/auth.json` — 登录态
+- `~/.codex/rules/default.rules` — 本机审批记录，含绝对路径
+- `~/.codex/config.toml` 里的 `model*`、`model_provider*`、`notify`、`projects`、`node_repl` — 全部本机专属
+
+用户只维护 `manifest.json` 和 `INSTALL.md`。代码只做 `apply` / `doctor` / `tasks`。
