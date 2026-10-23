@@ -1,0 +1,17 @@
+{
+  "name": "@v/agent-kit",
+  "version": "0.1.0",
+  "private": true,
+  "description": "我的 agent 工作环境清单：自建的用代码装，第三方的交给 agent 按官方文档装",
+  "type": "module",
+  "bin": { "agent-kit": "./cli.mjs" },
+  "files": ["cli.mjs", "lib/", "skills/", "config/", "manifest.json", "INSTALL.md"],
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "apply": "node cli.mjs apply",
+    "apply:dry": "node cli.mjs apply --dry-run",
+    "tasks": "node cli.mjs tasks",
+    "doctor": "node cli.mjs doctor"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,129 @@
+{
+  "version": 1,
+  "name": "agent-kit",
+
+  "targets": {
+    "pi": { "skills": "~/.pi/agent/skills", "root": "~/.pi/agent" },
+    "claude": { "skills": "~/.claude/skills", "root": "~/.claude" },
+    "agents": { "skills": "~/.agents/skills", "root": "~/.agents" }
+  },
+
+  "apply": [
+    {
+      "id": "bug-debugging",
+      "kind": "skill",
+      "from": "skills/bug-debugging",
+      "targets": ["pi", "claude"],
+      "note": "自己写的：证据驱动的调试流程"
+    },
+    {
+      "id": "context7-mcp",
+      "kind": "skill",
+      "from": "skills/context7-mcp",
+      "targets": ["pi", "claude"],
+      "note": "自己写的：教 agent 怎么用 context7 查库文档"
+    },
+    {
+      "id": "tapd-workbench",
+      "kind": "skill",
+      "from": "skills/tapd-workbench",
+      "targets": ["pi", "claude"],
+      "note": "自己写的：TAPD 工作项查询"
+    },
+    {
+      "id": "pi-extensions",
+      "kind": "dir",
+      "from": "config/pi-extensions",
+      "to": "~/.pi/agent/extensions",
+      "note": "orca 状态栏 / prefill / spinner"
+    },
+    {
+      "id": "claude-rules",
+      "kind": "dir",
+      "from": "config/claude-rules",
+      "to": "~/.claude/rules",
+      "note": "Claude rules 目录"
+    },
+    {
+      "id": "claude-CLAUDE.md",
+      "kind": "file",
+      "from": "config/claude-CLAUDE.md",
+      "to": "~/.claude/CLAUDE.md",
+      "note": "Claude 全局说明"
+    },
+    {
+      "id": "pi-settings",
+      "kind": "merge-json",
+      "from": "config/pi-settings.patch.json",
+      "to": "~/.pi/agent/settings.json",
+      "mergeArrays": true,
+      "note": "只合并 packages，不动其他字段"
+    }
+  ],
+
+  "agentTasks": [
+    {
+      "id": "design-taste-frontend",
+      "kind": "skill",
+      "source": "https://github.com/Leonxlnx/taste-skill",
+      "docs": "https://github.com/Leonxlnx/taste-skill#install",
+      "targets": ["pi", "claude", "agents"],
+      "follow": "latest",
+      "hint": "前端设计品味 skill，带 library/ 和 references/ 大目录。装到三个工具时用同一份，不要重复下载。"
+    },
+    {
+      "id": "frontend-design",
+      "kind": "skill",
+      "source": "https://github.com/anthropics/skills",
+      "docs": "https://github.com/anthropics/skills",
+      "targets": ["agents"],
+      "follow": "latest",
+      "hint": "Anthropic 官方 example-skills 里的 frontend-design。"
+    },
+    {
+      "id": "mattpocock-skills",
+      "kind": "skill",
+      "source": "https://github.com/mattpocock/skills",
+      "docs": "https://github.com/mattpocock/skills",
+      "targets": ["agents", "claude"],
+      "follow": "latest",
+      "provides": ["grill-me", "grill-with-docs", "handoff", "tdd", "teach", "to-spec", "setup-matt-pocock-skills"],
+      "hint": "一个仓库出多个 skill。装完核对 provides 列表是否齐全。"
+    },
+    {
+      "id": "context7-mcp",
+      "kind": "mcp",
+      "docs": "https://github.com/upstash/context7#installation",
+      "needs": ["CONTEXT7_API_KEY"],
+      "hint": "HTTP 型 MCP，endpoint https://mcp.context7.com/mcp，Authorization: Bearer <key>。key 由用户去 dashboard 自取，不要复用旧机器的。"
+    },
+    {
+      "id": "playwright-mcp",
+      "kind": "mcp",
+      "docs": "https://github.com/microsoft/playwright-mcp",
+      "hint": "stdio 型，npx -y @playwright/mcp@latest。首次跑可能要下载浏览器内核。"
+    },
+    {
+      "id": "codegraph-mcp",
+      "kind": "mcp",
+      "docs": "https://www.npmjs.com/package/@colbymchenry/codegraph",
+      "hint": "stdio 型，先全局装 @colbymchenry/codegraph，再 codegraph serve --mcp。"
+    },
+    {
+      "id": "i-have-adhd",
+      "kind": "package",
+      "source": "https://github.com/ayghri/i-have-adhd",
+      "docs": "https://github.com/ayghri/i-have-adhd",
+      "hint": "pi 的 package，走 pi 自己的 package 安装机制，写进 settings.json 的 packages 数组。"
+    }
+  ],
+
+  "tokens": [
+    {
+      "key": "CONTEXT7_API_KEY",
+      "usedBy": "context7-mcp",
+      "howToGet": "https://context7.com/dashboard",
+      "envFile": "~/.agent-kit.env"
+    }
+  ]
+}

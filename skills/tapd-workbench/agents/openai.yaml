@@ -1,0 +1,8 @@
+interface:
+  display_name: "TAPD 工作台"
+  short_description: "直接查询已登录 TAPD 中的 Bug、需求、状态和评论"
+  brand_color: "#2D8CF0"
+  default_prompt: "Use $tapd-workbench to answer my TAPD question from the current logged-in session."
+
+policy:
+  allow_implicit_invocation: true
