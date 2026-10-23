@@ -1,6 +1,6 @@
-# INSTALL.md — 给 agent 的执行手册（Codex）
+# INSTALL.md — 给 agent 的执行手册
 
-目标：让这台机器的 Codex 全局环境达到 `manifest.json` 的状态。mac / linux / windows 都适用。
+目标：让这台机器的 agent 环境达到 `manifest.json` 的状态。mac / linux / windows 都适用。
 
 **两条铁律**
 
@@ -20,7 +20,17 @@ node --version    # 需要 >= 18
 ls ~/.codex       # 需要存在：config.toml、skills/
 ```
 
-`~/.codex` 不存在就先让用户装 Codex 桌面端并登录一次，然后停下来等。
+目标目录不存在就先让用户装好对应工具并登录一次，然后停下来等。
+
+### 装到哪（换宿主时看这张表）
+
+| 宿主 | skill 目录 | 全局说明 | MCP 配置 | mcp 子命令 |
+|---|---|---|---|---|
+| Codex | `~/.codex/skills` | `~/.codex/AGENTS.md` | `~/.codex/config.toml` | `codex mcp add` |
+| Claude Code | `~/.claude/skills` | `~/.claude/CLAUDE.md` | `~/.claude.json` | `claude mcp add` |
+| pi | `~/.pi/agent/skills` | `~/.pi/agent/AGENTS.md` | `~/.pi/agent/mcp.json` | `pi mcp add` |
+
+`manifest.json` 的 `targets` 里三条都写好了，清单条目默认只指向 `codex`。换宿主就把条目的 `targets` 数组改成对应名字，并把 `codex-AGENTS.md` 那条的 `to` 换掉。代码不用改。
 
 ## 第 2 步：看清单，报给用户
 
@@ -57,7 +67,7 @@ node cli.mjs tasks
 1. 打开 `文档:` 链接，读**当前**安装方式。仓库里只有来源、要点和坑，没有可照抄的命令。`docs/mcp.md` / `docs/plugins.md` 里有每个条目的端点、传输类型、密钥来源和已知坑，先看它们再开文档。
 2. 按文档装。skill 装到 `~/.codex/skills/<name>/`（必须包含 `SKILL.md`）。
    如果任务带 `installer` 字段（比如 context7 的 `npx ctx7 setup`），优先用官方安装器，它会把 MCP 和配套 skill 一起装好，不要自己拆开装。
-3. MCP 优先用 Codex 官方命令：
+3. MCP 优先用宿主自己的 mcp 子命令（当前目标是 Codex，所以是 `codex mcp add`）：
 
 ```bash
 codex mcp add <name> --url <url>          # HTTP 型

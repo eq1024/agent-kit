@@ -2,6 +2,8 @@
 
 调研日期 2026-10-23。**装之前仍要读文档**，这里记的是当时的结论和坑，不是免检凭据。
 
+> 下面的命令按当前目标宿主（Codex）写。换宿主时照 `INSTALL.md` 的「装到哪」表替换路径和 `mcp` 子命令前缀，结论和坑不变。
+
 | MCP | 官方包 / 端点 | 传输 | 要不要密钥 | 谁装 |
 |---|---|---|---|---|
 | context7 | `npx ctx7 setup` 或 `https://mcp.context7.com/mcp` | http | 要（OAuth 可自动生成） | 官方安装器 |
@@ -19,7 +21,7 @@
 - 两种模式，二选一：
   - **MCP 型**：`https://mcp.context7.com/mcp` + `Authorization: Bearer <key>`（本机用这个）
   - **CLI + Skills 型**：`ctx7` 命令，不要 MCP
-- 坑：`ctx7 setup` 只列了 `--cursor` / `--claude` / `--opencode`，**没有 codex**。Codex 要么手动配 MCP，要么跑完 setup 把生成的 skill 挪过来（别手抄内容）。
+- 坑：`ctx7 setup` 只列了 `--cursor` / `--claude` / `--opencode`，**没有 codex**。当前宿主不在三者里，所以要么手动配 MCP，要么跑完 setup 把生成的 skill 挪过来（别手抄内容）。
 - `~/.codex/skills/context7-mcp/` 这个 skill **不是我写的**，是安装器生成的，所以不进本仓库。
 
 ## memos
@@ -51,7 +53,7 @@
 
 ## cloudbase（腾讯云开发）
 
-- 文档（Codex CLI 专页）：https://docs.cloudbase.net/ai/cloudbase-ai-toolkit/ide-setup/openai-codex-cli
+- 文档（当前宿主专页）：https://docs.cloudbase.net/ai/cloudbase-ai-toolkit/ide-setup/openai-codex-cli
 - 官方仓库：https://github.com/TencentCloudBase/CloudBase-AI-Toolkit
 - 两条路径：
   - **A. 插件市场**（推荐）：Codex App → `+` → 添加插件市场 → 来源 `TencentCloudBase/CloudBase-MCP`，Git 引用 `main`，稀疏路径留空 → 安装 `cloudbase` 插件。MCP + Skills + Hooks 一起装好。
@@ -72,7 +74,7 @@
 
 ## 统一验收方式
 
-装完在 Codex 新开一个线程（不是当前线程，MCP 列表在启动时加载）：
+装完新开一个会话（不是当前会话，MCP 列表在启动时加载）：
 
 ```bash
 codex mcp list      # 5 个都在

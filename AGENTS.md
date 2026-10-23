@@ -6,14 +6,14 @@
 
 ## 这个仓库是什么
 
-一份 Codex 环境清单。不是应用，没有运行时，没有依赖。
+一份 agent 环境清单。不是应用，没有运行时，没有依赖。
 
 它把配置分成两类，**这个划分是整个仓库的地基，不要打破**：
 
 | 类别 | 例子 | 谁执行 | 落在 |
 |---|---|---|---|
 | 几乎不变的 | 自己写的 skill、`AGENTS.md` | `cli.mjs apply`，复制 + 哈希对账 | `manifest.json` 的 `apply` |
-| 天天在变的 | 别人的 skill、MCP、插件 | 你自己读官方文档现装 | `manifest.json` 的 `agentTasks` |
+| 天天在变的 | 别人的 skill、MCP、插件 | 读官方文档现装 | `manifest.json` 的 `agentTasks` |
 
 第二类**只记来源、文档、密钥、坑，不记命令**。因为上游装法会变：context7 换过安装器，memos 从社区 npm 包变成了服务端自带，mattpocock 的仓库从 7 个 skill 长到 30 个。写死命令等于埋一个半年后引爆的雷，而且炸得很安静。
 
@@ -70,12 +70,12 @@ HOME=/tmp/fresh node cli.mjs apply           # mac / linux
 
 ## 已知坑
 
-- `analyze-frontend` 原版要求把 `prompts/analysis.md` 传给 Claude Code 的 `Agent` 工具（`subagent_type: general-purpose`）。Codex 没有这个工具，已改成让执行者自己按方法论跑。**不要改回去。**
-- `~/.agents/skills`、`~/.claude/skills`、`~/.pi/agent/skills` 里的副本 Codex 读不到。不要在那些目录里改东西。
-- mattpocock 用 `codex plugin add mattpocock-skills@mattpocock` 会一次装 30 个，和「只要 7 个」冲突。用 `npx skills add ... --skill <名字>`。
-- context7 的 `npx ctx7 setup` 目前没有 codex 参数，要按 all-clients 文档手动配 MCP。
+- `analyze-frontend` 原版要求把 `prompts/analysis.md` 传给 `Agent` 工具（`subagent_type: general-purpose`）。不是每个宿主都有这个工具，已改成让执行者自己按方法论跑。**不要改回去。**
+- `~/.agents/skills`、`~/.claude/skills`、`~/.pi/agent/skills` 里的副本当前目标 agent 读不到。不要在那些目录里改东西。
+- mattpocock 用 `plugin add mattpocock-skills@mattpocock` 会一次装 30 个，和「只要 7 个」冲突。用 `npx skills add ... --skill <名字>`。
+- context7 的 `npx ctx7 setup` 目前只支持 cursor / claude / opencode，其他 agent 要按 all-clients 文档手动配 MCP。
 - 详见 `docs/mcp.md`、`docs/plugins.md`。
 
 ## 它不管什么
 
-不装 Node、不装 Codex、不登录。不做版本回滚，只做覆盖前备份。不管另外三个工具目录里的旧副本。
+不装 Node、不装 agent 工具本身、不登录。不做版本回滚，只做覆盖前备份。不管另外三个工具目录里的旧副本。

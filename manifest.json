@@ -1,13 +1,26 @@
 {
   "version": 4,
   "name": "agent-kit",
-  "description": "Codex 全局环境清单：自建的用代码装，第三方交给 agent 按官方文档装。三端通用。",
+  "description": "agent 全局环境清单：自建的用代码装，第三方交给 agent 按官方文档装。三端通用。",
   "target": "codex",
   "targets": {
     "codex": {
       "root": "~/.codex",
       "config": "~/.codex/config.toml",
-      "skills": "~/.codex/skills"
+      "skills": "~/.codex/skills",
+      "instructions": "~/.codex/AGENTS.md"
+    },
+    "claude": {
+      "root": "~/.claude",
+      "config": "~/.claude.json",
+      "skills": "~/.claude/skills",
+      "instructions": "~/.claude/CLAUDE.md"
+    },
+    "pi": {
+      "root": "~/.pi/agent",
+      "config": "~/.pi/agent/mcp.json",
+      "skills": "~/.pi/agent/skills",
+      "instructions": "~/.pi/agent/AGENTS.md"
     }
   },
   "apply": [
@@ -36,7 +49,7 @@
       "targets": [
         "codex"
       ],
-      "note": "原 eq1024/skills，已改成 Codex 直接执行 prompts/analysis.md（原版依赖 Claude 的 Agent 工具）"
+      "note": "原 eq1024/skills，已改成直接执行 prompts/analysis.md（原版依赖 Claude 的 Agent 工具）"
     },
     {
       "id": "restriction-code",

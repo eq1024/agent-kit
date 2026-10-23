@@ -31,9 +31,9 @@
 
 | 插件 | 来源 | 备注 |
 |---|---|---|
-| i-have-adhd | `ayghri/i-have-adhd` | Codex 插件市场；always-on 段已在 `AGENTS.md` |
+| i-have-adhd | `ayghri/i-have-adhd` | 插件市场安装；always-on 段已在 `AGENTS.md` |
 
-Codex 里合计 15 个 skill + 1 个插件。
+合计 15 个 skill + 1 个插件。
 
 ## 四、明确不要的
 
@@ -41,21 +41,21 @@ Codex 里合计 15 个 skill + 1 个插件。
 |---|---|
 | `eq1024/skills` 的 i-have-adhd | 与 ayghri 插件 + AGENTS.md 里的 always-on 段重复，三份会打架 |
 | mattpocock 仓库其余 20+ 个 | 本机从没装过，按需再加 |
-| `eq1024/skills` 的 `commands/eq/*.md` | 斜杠命令，Codex 不读 `commands/` |
+| `eq1024/skills` 的 `commands/eq/*.md` | 斜杠命令，当前宿主不读 `commands/` |
 
-## 五、其他工具目录里还有的（Codex 读不到）
+## 五、其他工具目录里还有的（当前宿主读不到）
 
 - `~/.agents/skills/` — 早期用 skills.sh 装的副本
 - `~/.claude/skills/` — 8 个
 - `~/.pi/agent/skills/` — 4 个
 
-Codex 只读 `~/.codex/skills` 和仓库里的 `.codex/skills`。上面第一、二节已经都在 `~/.codex/skills/` 了，其余目录保持原样不碰。
+当前目标 agent 只读 `~/.codex/skills` 和仓库里的 `.codex/skills`。上面第一、二节已经都在 `~/.codex/skills/` 了，其余目录保持原样不碰。
 
 ## 六、迁移说明：eq1024/skills
 
 那份旧库不再作为依赖源，3 个 skill 已经变成这个仓库的一部分：
 
-- `analyze-frontend`：原版要求把 `prompts/analysis.md` 传给 Claude Code 的 `Agent` 工具（`subagent_type: general-purpose`），Codex 没有这个工具。已改成让它自己读 `prompts/analysis.md` 并按方法论执行；`prompts/analysis.md`（16KB 九章方法论）内容一字未动。
+- `analyze-frontend`：原版要求把 `prompts/analysis.md` 传给 Claude Code 的 `Agent` 工具（`subagent_type: general-purpose`），当前目标 agent 没有这个工具。已改成让它自己读 `prompts/analysis.md` 并按方法论执行；`prompts/analysis.md`（16KB 九章方法论）内容一字未动。
 - `restriction-code`、`ux-review`：原生兼容，直接搬过来。
 
 以后改这 3 个，直接改本仓库 `skills/` 下的文件，不要再回头同步上游。

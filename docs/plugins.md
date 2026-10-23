@@ -1,6 +1,8 @@
 # 插件 / skill — 第三方记录
 
 > `eq1024/skills` 里要留的 3 个已经迁进本仓库 `skills/`，当自建维护，不再从上游装。
+>
+> 下面的命令按当前目标宿主（Codex）写。换宿主时照 `INSTALL.md` 的「装到哪」表替换路径和 CLI 前缀，结论和坑不变。
 
 ## mattpocock-skills（只装 7 个，不是全量）
 
@@ -19,13 +21,13 @@ npx skills add mattpocock/skills --skill tdd --skill grill-me
 
 ### 三个坑
 
-1. **不要用 `codex plugin add mattpocock-skills@mattpocock`** —— 那是一次装 30 个，和「只要 7 个」直接冲突。
+1. **不要用 `plugin add mattpocock-skills@mattpocock`** —— 那是一次装 30 个，和「只要 7 个」直接冲突。
 2. **不要用不带 `--skill` 的 `npx skills add mattpocock/skills`** —— 同样全量。
 3. `setup-matt-pocock-skills` 是**每个仓库跑一次**，不是全局。它要问你 issue tracker 放哪、triage 五个角色的标签叫什么、`CONTEXT.md` / ADR 放哪。
 
 ### 本机状态
 
-7 个都在 `~/.codex/skills/`。原本只在 `~/.agents/skills/` 里，而 Codex 只读 `~/.codex/skills`，2026-10-23 已同步。
+7 个都在 `~/.codex/skills/`。原本只在 `~/.agents/skills/` 里，而当前宿主只读 `~/.codex/skills`，2026-10-23 已同步。
 
 ---
 
@@ -35,9 +37,9 @@ npx skills add mattpocock/skills --skill tdd --skill grill-me
 - 安装说明：https://github.com/ayghri/i-have-adhd/blob/main/INSTALL.md（README 里那句「refer to the repo's AGENTS.md」就是指这个文件）
 - 作用：让回复「答案先行、步骤编号、没有废话」。不是诊断工具，是输出格式约束。
 
-### Codex 装法
+### 装法
 
-Codex 走**插件市场**，不是拷 skill 目录：
+走**插件市场**，不是拷 skill 目录：
 
 ```bash
 codex plugin marketplace add ayghri/i-have-adhd --ref main
@@ -54,10 +56,10 @@ codex plugin add i-have-adhd@i-have-adhd
 
 ### 两个必须知道的点
 
-1. **Codex 不会自动激活**。插件只是装上，要用 `$i-have-adhd` 显式调用。
+1. **这个宿主不会自动激活**。插件只是装上，要用 `$i-have-adhd` 显式调用。
 2. 想让它**一直生效**，把 INSTALL.md 里的 `## Output style` 整段写进 `~/.codex/AGENTS.md`。
 
-本仓库的 `config/codex-AGENTS.md` **已经包含 `## Output style` 段**，所以 `node cli.mjs apply` 跑完，新机器的 Codex 就默认是 ADHD 输出风格，不需要再手动加。
+本仓库的 `config/codex-AGENTS.md` **已经包含 `## Output style` 段**，所以 `node cli.mjs apply` 跑完，新机器就默认是 ADHD 输出风格，不需要再手动加。
 
 ### 本机状态
 
