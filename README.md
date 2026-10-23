@@ -2,7 +2,7 @@
 
 Codex 全局环境清单。一个仓库，一台新机器，mac / linux / windows 三端同一套。
 
-自建的（自己的 skill、AGENTS.md）用代码装；第三方的（别人的 skill、需要 token 的 MCP）只记意图，由 agent 现查官方文档装。
+自建的（5 个 skill + AGENTS.md）用代码装；第三方的（别人的 skill、需要 token 的 MCP）只记意图，由 agent 现查官方文档装。
 
 ## 用法
 

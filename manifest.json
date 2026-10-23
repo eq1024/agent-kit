@@ -1,9 +1,8 @@
 {
-  "version": 3,
+  "version": 4,
   "name": "agent-kit",
   "description": "Codex 全局环境清单：自建的用代码装，第三方交给 agent 按官方文档装。三端通用。",
   "target": "codex",
-
   "targets": {
     "codex": {
       "root": "~/.codex",
@@ -11,21 +10,51 @@
       "skills": "~/.codex/skills"
     }
   },
-
   "apply": [
     {
       "id": "bug-debugging",
       "kind": "skill",
       "from": "skills/bug-debugging",
-      "targets": ["codex"],
+      "targets": [
+        "codex"
+      ],
       "note": "自己写的：证据驱动的调试流程"
     },
     {
       "id": "tapd-workbench",
       "kind": "skill",
       "from": "skills/tapd-workbench",
-      "targets": ["codex"],
+      "targets": [
+        "codex"
+      ],
       "note": "自己写的：TAPD 工作项查询"
+    },
+    {
+      "id": "analyze-frontend",
+      "kind": "skill",
+      "from": "skills/analyze-frontend",
+      "targets": [
+        "codex"
+      ],
+      "note": "原 eq1024/skills，已改成 Codex 直接执行 prompts/analysis.md（原版依赖 Claude 的 Agent 工具）"
+    },
+    {
+      "id": "restriction-code",
+      "kind": "skill",
+      "from": "skills/restriction-code",
+      "targets": [
+        "codex"
+      ],
+      "note": "原 eq1024/skills，原生兼容"
+    },
+    {
+      "id": "ux-review",
+      "kind": "skill",
+      "from": "skills/ux-review",
+      "targets": [
+        "codex"
+      ],
+      "note": "原 eq1024/skills，原生兼容"
     },
     {
       "id": "codex-AGENTS.md",
@@ -35,7 +64,6 @@
       "note": "全局指令。覆盖前备份。"
     }
   ],
-
   "agentTasks": [
     {
       "id": "context7-mcp",
@@ -43,9 +71,13 @@
       "transport": "http",
       "docs": "https://github.com/upstash/context7",
       "follow": "latest",
-      "provides": ["context7-mcp"],
+      "provides": [
+        "context7-mcp"
+      ],
       "installer": "npx ctx7 setup",
-      "needs": ["CONTEXT7_API_KEY"],
+      "needs": [
+        "CONTEXT7_API_KEY"
+      ],
       "interactive": true,
       "hint": "官方安装器 `npx ctx7 setup` 会 OAuth 认证、生成 API key、并装好配套 skill（`npx ctx7 remove` 卸载）。但它只列了 --cursor / --claude / --opencode，不支持 codex 就按 https://context7.com/docs/resources/all-clients 手动配。MCP 型（https://mcp.context7.com/mcp，Authorization: Bearer）和 CLI+Skills 型（ctx7 命令）二选一，本机用的是 MCP 型。",
       "verify": "codex mcp list 里出现 context7；~/.codex/skills/context7-mcp/SKILL.md 存在"
@@ -56,7 +88,10 @@
       "transport": "http",
       "docs": "https://usememos.com/docs/integrations/mcp",
       "follow": "latest",
-      "needs": ["MEMOS_URL", "MEMOS_TOKEN"],
+      "needs": [
+        "MEMOS_URL",
+        "MEMOS_TOKEN"
+      ],
       "interactive": true,
       "hint": "Memos v0.27+ 自带 MCP，不需要装任何 npm 包。Streamable HTTP，地址是 `https://<你的实例>/mcp`，用 personal access token 做 Bearer。token 在 Memos 网页端「设置 → API 访问」里生成。v0.30 起工具名统一成 memo_* 前缀，别用旧的无前缀名。社区那些 memos-mcp npm 包都不要用——内置的就够了。",
       "verify": "codex mcp list 里出现 memos；能列出 memos（工具名以 memo_ 开头）"
@@ -90,26 +125,29 @@
       "verify": "codex mcp list 里出现 cloudbase；工具数不为 0（为 0 见官方 FAQ）；能执行 queryEnv 拿到环境信息"
     },
     {
-      "id": "eq-skills",
-      "kind": "skill",
-      "source": "https://github.com/eq1024/skills",
-      "docs": "https://github.com/eq1024/skills#-安装方式",
-      "follow": "latest",
-      "only": ["analyze-frontend", "restriction-code", "ux-review"],
-      "provides": ["analyze-frontend", "restriction-code", "ux-review"],
-      "note": "我自己以前的前端 skill 库。只装 3 个，i-have-adhd 跳过（和已装的 ayghri 插件重复）。",
-      "patch": "patches/analyze-frontend-codex.md",
-      "hint": "装 3 个：analyze-frontend、restriction-code、ux-review。**跳过 i-have-adhd**（已有 ayghri 那个插件 + AGENTS.md 里的 always-on 段，再装就是两份）。方式：`npx eq-skills` 或从 git clone 拷 `skills/<名字>` 到 ~/.codex/skills/。装完必须打 `patches/analyze-frontend-codex.md` 里的补丁，否则 analyze-frontend 会去找 Claude Code 才有的 Agent 工具。注意仓库里的 `commands/eq/*.md` 是斜杠命令，Codex 用不上，不用管。",
-      "verify": "~/.codex/skills/ 下 3 个目录都在；analyze-frontend 正文不再要求“传入 Agent 工具”"
-    },
-    {
       "id": "mattpocock-skills",
       "kind": "skill",
       "source": "https://github.com/mattpocock/skills",
       "docs": "https://github.com/mattpocock/skills#installation-30-second-setup",
       "follow": "latest",
-      "only": ["grill-me", "grill-with-docs", "handoff", "setup-matt-pocock-skills", "tdd", "teach", "to-spec"],
-      "provides": ["grill-me", "grill-with-docs", "handoff", "setup-matt-pocock-skills", "tdd", "teach", "to-spec"],
+      "only": [
+        "grill-me",
+        "grill-with-docs",
+        "handoff",
+        "setup-matt-pocock-skills",
+        "tdd",
+        "teach",
+        "to-spec"
+      ],
+      "provides": [
+        "grill-me",
+        "grill-with-docs",
+        "handoff",
+        "setup-matt-pocock-skills",
+        "tdd",
+        "teach",
+        "to-spec"
+      ],
       "note": "只装这 7 个。仓库里有 30 来个，不装全部。",
       "hint": "只装 only 里这 7 个，别装全部。推荐 `npx skills add mattpocock/skills --skill <名字>` 逐个装（skills.sh 会拷可编辑文件）；或者从已有副本拷到 ~/.codex/skills/<名字>。**不要** 用 `codex plugin add mattpocock-skills@mattpocock`，那会一次装 30 个，和「只要这 7 个」矛盾。`setup-matt-pocock-skills` 是每个仓库跑一次，不是全局。",
       "verify": "~/.codex/skills/ 下这 7 个目录都在，每个带 SKILL.md"
@@ -136,12 +174,13 @@
       "kind": "skill",
       "source": "https://github.com/Leonxlnx/taste-skill",
       "docs": "https://github.com/Leonxlnx/taste-skill",
-      "targets": ["codex"],
+      "targets": [
+        "codex"
+      ],
       "follow": "latest",
       "hint": "前端设计品味 skill，带 library/ 和 references/ 大目录（约 2.4MB）。装到 ~/.codex/skills/design-taste-frontend，必须包含 SKILL.md。"
     }
   ],
-
   "tokens": [
     {
       "key": "CONTEXT7_API_KEY",
@@ -162,11 +201,16 @@
       "envFile": "~/.agent-kit.env"
     }
   ],
-
   "notUsed": [
-    { "id": "mattpocock 仓库其余 20+ 个", "why": "本机只装过 7 个，其余按需再加到 mattpocock-skills 的 only 列表" }
+    {
+      "id": "eq1024/skills 的 i-have-adhd",
+      "why": "与已装的 ayghri 插件 + AGENTS.md 里的 always-on 段重复，不要三份"
+    },
+    {
+      "id": "mattpocock 仓库其余 20+ 个",
+      "why": "本机只装过 7 个，按需再加到 mattpocock-skills 的 only 列表"
+    }
   ],
-
   "machineSpecific": [
     "~/.codex/config.toml 里的 model / model_provider / notify / projects / node_repl 都带本机绝对路径，不进仓库",
     "~/.codex/rules/default.rules 是会话自动生成的审批记录，不进仓库",
