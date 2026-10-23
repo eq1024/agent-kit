@@ -90,6 +90,15 @@
       "verify": "codex mcp list 里出现 cloudbase；工具数不为 0（为 0 见官方 FAQ）；能执行 queryEnv 拿到环境信息"
     },
     {
+      "id": "i-have-adhd",
+      "kind": "plugin",
+      "source": "https://github.com/ayghri/i-have-adhd",
+      "docs": "https://github.com/ayghri/i-have-adhd/blob/main/INSTALL.md",
+      "follow": "latest",
+      "hint": "Codex 用插件市场装：`codex plugin marketplace add ayghri/i-have-adhd --ref main` 然后 `codex plugin add i-have-adhd@i-have-adhd`。关键一点：Codex 不会自动激活，得用 `$i-have-adhd` 显式调用；想让它一直生效，就把 INSTALL.md 里的 `## Output style` 整段追加到 ~/.codex/AGENTS.md（本仓库的 config/codex-AGENTS.md 已经包含该段）。更新用 marketplace upgrade + plugin remove + plugin add。",
+      "verify": "codex plugin list 里有 i-have-adhd；新线程里 $i-have-adhd 能触发；或 AGENTS.md 里有 ## Output style 段"
+    },
+    {
       "id": "design-taste-frontend",
       "kind": "skill",
       "source": "https://github.com/Leonxlnx/taste-skill",

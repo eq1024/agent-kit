@@ -42,13 +42,14 @@ node cli.mjs apply
 ## 第 3 步：逐项处理第三方
 
 ```bash
-docs/mcp.md   # 5 个 MCP 的调研记录（端点、密钥、坑）—— 先读这个
+docs/mcp.md      # 5 个 MCP 的调研记录（端点、密钥、坑）
+docs/plugins.md  # 插件类（i-have-adhd）的装法
 node cli.mjs tasks
 ```
 
 每一项：
 
-1. 打开 `文档:` 链接，读**当前**安装方式。仓库里只有来源、要点和坑，没有可照抄的命令。`docs/mcp.md` 里有每个 MCP 的端点、传输类型、密钥来源和已知坑，先看它再开文档。
+1. 打开 `文档:` 链接，读**当前**安装方式。仓库里只有来源、要点和坑，没有可照抄的命令。`docs/mcp.md` / `docs/plugins.md` 里有每个条目的端点、传输类型、密钥来源和已知坑，先看它们再开文档。
 2. 按文档装。skill 装到 `~/.codex/skills/<name>/`（必须包含 `SKILL.md`）。
    如果任务带 `installer` 字段（比如 context7 的 `npx ctx7 setup`），优先用官方安装器，它会把 MCP 和配套 skill 一起装好，不要自己拆开装。
 3. MCP 优先用 Codex 官方命令：
@@ -105,4 +106,4 @@ node cli.mjs doctor
 - `~/.codex/rules/default.rules` — 本机审批记录，含绝对路径
 - `~/.codex/config.toml` 里的 `model*`、`model_provider*`、`notify`、`projects`、`node_repl` — 全部本机专属
 
-用户只维护 `manifest.json`、`INSTALL.md`、`docs/mcp.md`。代码只做 `apply` / `doctor` / `tasks`。
+用户只维护 `manifest.json`、`INSTALL.md`、`docs/`。代码只做 `apply` / `doctor` / `tasks`。

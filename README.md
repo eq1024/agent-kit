@@ -46,11 +46,13 @@ node cli.mjs doctor     # 体检
 
 详细端点、跨端差异、已知坑：`docs/mcp.md`。
 
+插件：i-have-adhd（Codex 插件市场装，always-on 段落已内置在 `AGENTS.md` 里）——见 `docs/plugins.md`。
+
 ## 你怎么维护
 
 1. 改自己的 skill → 改 `skills/` 目录
 2. 加第三方 skill / MCP → 在 `manifest.json` 的 `agentTasks` 加一条，只写来源、文档、要点，**不写命令**
-3. 新增或改 MCP → 同步更新 `docs/mcp.md`
+3. 新增或改 MCP / 插件 → 同步更新 `docs/mcp.md` 或 `docs/plugins.md`
 4. `git push`
 
 ## 跨端
