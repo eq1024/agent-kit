@@ -20,13 +20,6 @@
       "note": "自己写的：证据驱动的调试流程"
     },
     {
-      "id": "context7-mcp",
-      "kind": "skill",
-      "from": "skills/context7-mcp",
-      "targets": ["codex"],
-      "note": "自己写的：教 agent 怎么用 context7 查库文档"
-    },
-    {
       "id": "tapd-workbench",
       "kind": "skill",
       "from": "skills/tapd-workbench",
@@ -55,10 +48,13 @@
     {
       "id": "context7-mcp",
       "kind": "mcp",
-      "docs": "https://github.com/upstash/context7#installation",
+      "docs": "https://github.com/upstash/context7",
+      "follow": "latest",
+      "provides": ["context7-mcp"],
+      "installer": "npx ctx7 setup",
       "needs": ["CONTEXT7_API_KEY"],
       "targets": ["codex"],
-      "hint": "HTTP 型。优先用 `codex mcp add context7 --url https://mcp.context7.com/mcp --header \"Authorization: Bearer $KEY\"`；没有 codex CLI 就写进 ~/.codex/config.toml 的 [mcp_servers.context7]。key 由用户自己取，不要复用别的机器的。"
+      "hint": "这个 skill 不是我写的，是 context7 官方安装器生成的：`npx ctx7 setup` 会 OAuth 认证、生成 API key、并装好配套 skill（`npx ctx7 remove` 可卸载）。优先跑它；README 目前只列了 --cursor / --claude / --opencode，不支持 codex 就按 all-clients 文档手动配 MCP，skill 用 setup 生成的那份，不要手抄内容。MCP 型和 CLI+Skills 型二选一，本机用的是 MCP 型。"
     },
     {
       "id": "playwright-mcp",
@@ -80,7 +76,7 @@
     {
       "key": "CONTEXT7_API_KEY",
       "usedBy": "context7-mcp",
-      "howToGet": "https://context7.com/dashboard",
+      "howToGet": "跑 npx ctx7 setup 走 OAuth 自动生成，或去 https://context7.com/dashboard 手动取",
       "envFile": "~/.agent-kit.env"
     }
   ],

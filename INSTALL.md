@@ -37,6 +37,8 @@ node cli.mjs apply
 
 覆盖前自动备份成 `<目标>.bak.<时间戳>`，每个目标只留最近 3 份。失败不要强来，原样报给用户。
 
+> **不要往仓库里放工具自带的 skill。** 比如 `context7-mcp` 是 `npx ctx7 setup` 生成的，跟着工具版本变。这类只登记在 `agentTasks`，由安装器自己写，复制进仓库等于把别人的代码当自己的维护。
+
 ## 第 3 步：逐项处理第三方
 
 ```bash
@@ -47,6 +49,7 @@ node cli.mjs tasks
 
 1. 打开 `文档:` 链接，读**当前**安装方式。仓库里只有来源和要点，没有命令。
 2. 按文档装。skill 装到 `~/.codex/skills/<name>/`（必须包含 `SKILL.md`）。
+   如果任务带 `installer` 字段（比如 context7 的 `npx ctx7 setup`），优先用官方安装器，它会把 MCP 和配套 skill 一起装好，不要自己拆开装。
 3. MCP 优先用 Codex 官方命令：
 
 ```bash
