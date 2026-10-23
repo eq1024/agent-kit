@@ -91,30 +91,23 @@
     },
     {
       "id": "mattpocock-skills",
-      "kind": "plugin",
-      "marketplace": "mattpocock",
+      "kind": "skill",
       "source": "https://github.com/mattpocock/skills",
       "docs": "https://github.com/mattpocock/skills#installation-30-second-setup",
       "follow": "latest",
-      "provides": [
-        "ask-matt",
-        "grill-me",
-        "grill-with-docs",
-        "grilling",
-        "handoff",
-        "teach",
-        "tdd",
-        "to-spec",
-        "to-tickets",
-        "triage",
-        "implement",
-        "code-review",
-        "diagnosing-bugs",
-        "domain-modeling",
-        "setup-matt-pocock-skills"
-      ],
-      "hint": "Codex 用插件市场装：`codex plugin marketplace add mattpocock/skills` 然后 `codex plugin add mattpocock-skills@mattpocock`，启动时自动更新。关键：同一台机器上**只能选一种装法**，插件和 `npx skills add mattpocock/skills`（skills.sh 拷可编辑文件）二选一，否则每个 skill 会重复两份。注意这个仓库现在有 30 来个 skill，比早期那 7 个多很多；`setup-matt-pocock-skills` 是每个仓库跑一次的初始化（issue tracker、triage 标签、domain docs 目录）。",
-      "verify": "codex plugin list 里有 mattpocock-skills；新线程里 /tdd 或 $grill-me 能触发"
+      "only": ["grill-me", "grill-with-docs", "handoff", "setup-matt-pocock-skills", "tdd", "teach", "to-spec"],
+      "provides": ["grill-me", "grill-with-docs", "handoff", "setup-matt-pocock-skills", "tdd", "teach", "to-spec"],
+      "note": "只装这 7 个。仓库里有 30 来个，不装全部。",
+      "hint": "只装 only 里这 7 个，别装全部。推荐 `npx skills add mattpocock/skills --skill <名字>` 逐个装（skills.sh 会拷可编辑文件）；或者从已有副本拷到 ~/.codex/skills/<名字>。**不要** 用 `codex plugin add mattpocock-skills@mattpocock`，那会一次装 30 个，和「只要这 7 个」矛盾。`setup-matt-pocock-skills` 是每个仓库跑一次，不是全局。",
+      "verify": "~/.codex/skills/ 下这 7 个目录都在，每个带 SKILL.md"
+    },
+    {
+      "id": "frontend-design",
+      "kind": "skill",
+      "source": "https://github.com/anthropics/skills",
+      "docs": "https://github.com/anthropics/skills",
+      "follow": "latest",
+      "hint": "Anthropic 官方 example-skills 里的 frontend-design。和 design-taste-frontend 职责有重叠（都是前端视觉），两个都在就不自定义取舍，按任务里的上下文选。装到 ~/.codex/skills/frontend-design。"
     },
     {
       "id": "i-have-adhd",
@@ -158,7 +151,7 @@
   ],
 
   "notUsed": [
-    { "id": "frontend-design", "source": "https://github.com/anthropics/skills", "why": "之前装在 ~/.agents，Codex 用不到" }
+    { "id": "mattpocock 仓库其余 20+ 个", "why": "本机只装过 7 个，其余按需再加到 mattpocock-skills 的 only 列表" }
   ],
 
   "machineSpecific": [

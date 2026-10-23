@@ -50,7 +50,7 @@ node cli.mjs doctor     # 体检
 
 | 插件 | 装法 |
 |---|---|
-| mattpocock-skills | `codex plugin add mattpocock-skills@mattpocock`，启动自动更新 |
+| mattpocock-skills | 只装 7 个（`npx skills add ... --skill <名字>`），**不要**用插件全量装 |
 | i-have-adhd | `codex plugin add i-have-adhd@i-have-adhd`，不自动激活；always-on 段已内置在 `AGENTS.md` |
 
 细节见 `docs/plugins.md`。

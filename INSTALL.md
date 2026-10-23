@@ -43,7 +43,8 @@ node cli.mjs apply
 
 ```bash
 docs/mcp.md      # 5 个 MCP 的调研记录（端点、密钥、坑）
-docs/plugins.md  # 插件类（i-have-adhd）的装法
+docs/plugins.md  # 第三方 skill / 插件（mattpocock 只装 7 个、i-have-adhd）
+docs/inventory.md # 本机现有的 skill 清单（同步基准：机器上有的就是要的）
 node cli.mjs tasks
 ```
 
