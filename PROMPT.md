@@ -3,7 +3,7 @@
 > 帮我配置这台机器的 Codex 全局环境。
 >
 > 1. 把 `<仓库地址>` clone 下来，或者直接读它的 raw 文件。
-> 2. 严格按仓库里的 `INSTALL.md` 执行，不要跳步，不要自己发明命令。
+> 2. 先读仓库根目录的 `AGENTS.md`（这个仓库的不变量），再严格按 `INSTALL.md` 执行。不要跳步，不要自己发明命令。
 > 3. `manifest.apply` 的部分跑代码；`manifest.agentTasks` 的部分去读官方文档现查现装，装完写进 `~/.agent-kit.state.json`。
 > 4. 需要密钥就停下来问我，密钥只允许写进 `~/.agent-kit.env`。
 > 5. 不要动 `~/.codex/config.toml` 里的 model / notify / projects / node_repl，也不要动 auth.json。

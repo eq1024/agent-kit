@@ -1,6 +1,6 @@
 {
   "name": "@v/codex-kit",
-  "version": "0.8.2",
+  "version": "0.9.0",
   "private": true,
   "description": "Codex 全局环境清单：自建用代码装，第三方交给 agent 按官方文档装。三端通用。",
   "type": "module",
@@ -14,7 +14,10 @@
     "config/",
     "docs/",
     "manifest.json",
-    "INSTALL.md"
+    "INSTALL.md",
+    "AGENTS.md",
+    "PROMPT.md",
+    "README.md"
   ],
   "engines": {
     "node": ">=18"

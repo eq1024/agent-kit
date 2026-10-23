@@ -9,7 +9,11 @@
 
 ---
 
-## 第 0 步：确认前提
+## 第 0 步：先读仓库规则
+
+先读仓库根目录的 `AGENTS.md`，那里有这个仓库的不变量（不写死命令、不碰 config.toml 机器专属段、密钥只进 env、装完必写 state）。再继续。
+
+## 第 1 步：确认前提
 
 ```bash
 node --version    # 需要 >= 18
@@ -18,7 +22,7 @@ ls ~/.codex       # 需要存在：config.toml、skills/
 
 `~/.codex` 不存在就先让用户装 Codex 桌面端并登录一次，然后停下来等。
 
-## 第 1 步：看清单，报给用户
+## 第 2 步：看清单，报给用户
 
 ```bash
 node cli.mjs list
@@ -26,7 +30,7 @@ node cli.mjs list
 
 一句话说明要做什么，用户确认后再动手。
 
-## 第 2 步：跑自建部分（确定性，幂等）
+## 第 3 步：跑自建部分（确定性，幂等）
 
 ```bash
 node cli.mjs apply --dry-run
@@ -39,7 +43,7 @@ node cli.mjs apply
 
 > **不要往仓库里放工具自带的 skill。** 比如 `context7-mcp` 是 `npx ctx7 setup` 生成的，跟着工具版本变。这类只登记在 `agentTasks`，由安装器自己写，复制进仓库等于把别人的代码当自己的维护。
 
-## 第 3 步：逐项处理第三方
+## 第 4 步：逐项处理第三方
 
 ```bash
 docs/mcp.md      # 5 个 MCP 的调研记录（端点、密钥、坑）
@@ -81,7 +85,7 @@ codex mcp add <name> -- <command> <args>  # stdio 型
 
 这一步不能省。没有它，下次没人知道这台机器上是什么版本。
 
-## 第 4 步：体检
+## 第 5 步：体检
 
 ```bash
 node cli.mjs doctor
