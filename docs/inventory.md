@@ -11,6 +11,9 @@
 | context7-mcp | `npx ctx7 setup` 生成 | 官方安装器 |
 | design-taste-frontend | `Leonxlnx/taste-skill` | 第三方 |
 | frontend-design | `anthropics/skills` | 第三方 |
+| analyze-frontend | `eq1024/skills` | 第三方（已打 Codex 补丁） |
+| restriction-code | `eq1024/skills` | 第三方 |
+| ux-review | `eq1024/skills` | 第三方 |
 | grill-me | `mattpocock/skills` | 第三方 |
 | grill-with-docs | `mattpocock/skills` | 第三方 |
 | handoff | `mattpocock/skills` | 第三方 |
@@ -19,7 +22,7 @@
 | teach | `mattpocock/skills` | 第三方 |
 | to-spec | `mattpocock/skills` | 第三方 |
 
-共 12 个。mattpocock 只取这 7 个，**不装他仓库里另外 20 多个**。
+共 15 个。mattpocock 只取 7 个，**不装他仓库里另外 20 多个**；eq1024 只取 3 个，**不装 i-have-adhd**（与已有插件重复）。
 
 ## 其他工具目录里还有的（Codex 读不到）
 

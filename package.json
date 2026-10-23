@@ -1,6 +1,6 @@
 {
   "name": "@v/codex-kit",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": true,
   "description": "Codex 全局环境清单：自建用代码装，第三方交给 agent 按官方文档装。三端通用。",
   "type": "module",
@@ -13,6 +13,7 @@
     "skills/",
     "config/",
     "docs/",
+    "patches/",
     "manifest.json",
     "INSTALL.md"
   ],

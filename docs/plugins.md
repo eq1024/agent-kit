@@ -1,5 +1,34 @@
 # 插件 / skill — 第三方记录
 
+## eq-skills（我自己的旧 skill 库）
+
+- 仓库：https://github.com/eq1024/skills
+- 4 个 skill，**只装 3 个**：`analyze-frontend`、`restriction-code`、`ux-review`
+- 跳过的：`i-have-adhd`（和已装的 ayghri 插件 + `AGENTS.md` 里的 always-on 段重复）
+
+| skill | 作用 | Codex 兼容性 |
+|---|---|---|
+| analyze-frontend | 九章前端体检报告（项目概览 → 文件树 → Git 审计 → 架构分层 → 公共封装 → 配置 → 风险 → 重构路线 → 战略对标） | **要打补丁**，见下 |
+| restriction-code | 把四条代码纪律（谋定而后动 / 大道至简 / 外科手术式修改 / 目标驱动）写进 AGENTS.md | 原生兼容，自己会识别宿主 |
+| ux-review | 只审本次改动的文件，7 个维度：加载态 / 错误态 / 空态 / 边界守卫 / 响应式渲染 / 细节打磨 / 网络性能 | 原生兼容，用 git diff 取范围 |
+
+### analyze-frontend 必须打补丁
+
+原版要求「把 `prompts/analysis.md` 传给 Agent 工具，`subagent_type: general-purpose`」——那是 Claude Code 的子代理，Codex 没有。
+
+补丁：`patches/analyze-frontend-codex.md`，只改 SKILL.md 正文，`prompts/analysis.md` 一字不动。不打补丁的话它会在运行时找不存在的工具。
+
+### 装法
+
+```bash
+npx eq-skills
+# 或 clone 后拷 skills/<名字> 到 ~/.codex/skills/
+```
+
+仓库里的 `commands/eq/*.md` 是斜杠命令，Codex 用不上，忽略。
+
+---
+
 ## mattpocock-skills（只装 7 个，不是全量）
 
 - 仓库：https://github.com/mattpocock/skills

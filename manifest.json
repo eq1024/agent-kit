@@ -90,6 +90,19 @@
       "verify": "codex mcp list 里出现 cloudbase；工具数不为 0（为 0 见官方 FAQ）；能执行 queryEnv 拿到环境信息"
     },
     {
+      "id": "eq-skills",
+      "kind": "skill",
+      "source": "https://github.com/eq1024/skills",
+      "docs": "https://github.com/eq1024/skills#-安装方式",
+      "follow": "latest",
+      "only": ["analyze-frontend", "restriction-code", "ux-review"],
+      "provides": ["analyze-frontend", "restriction-code", "ux-review"],
+      "note": "我自己以前的前端 skill 库。只装 3 个，i-have-adhd 跳过（和已装的 ayghri 插件重复）。",
+      "patch": "patches/analyze-frontend-codex.md",
+      "hint": "装 3 个：analyze-frontend、restriction-code、ux-review。**跳过 i-have-adhd**（已有 ayghri 那个插件 + AGENTS.md 里的 always-on 段，再装就是两份）。方式：`npx eq-skills` 或从 git clone 拷 `skills/<名字>` 到 ~/.codex/skills/。装完必须打 `patches/analyze-frontend-codex.md` 里的补丁，否则 analyze-frontend 会去找 Claude Code 才有的 Agent 工具。注意仓库里的 `commands/eq/*.md` 是斜杠命令，Codex 用不上，不用管。",
+      "verify": "~/.codex/skills/ 下 3 个目录都在；analyze-frontend 正文不再要求“传入 Agent 工具”"
+    },
+    {
       "id": "mattpocock-skills",
       "kind": "skill",
       "source": "https://github.com/mattpocock/skills",
