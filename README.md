@@ -1,3 +1,22 @@
+<div align="center">
+
+# 🧰 agent-kit
+
+#### 我自己每天在用的 Codex 工作环境
+
+[![License](https://img.shields.io/badge/License-MIT-3B82F6?style=for-the-badge)](./LICENSE)
+[![Skills](https://img.shields.io/badge/Skills-15-10B981?style=for-the-badge)](#-skills)
+[![MCP](https://img.shields.io/badge/MCP-5-8B5CF6?style=for-the-badge)](#-mcp)
+
+![Codex](https://img.shields.io/badge/Codex-Skill-000000?style=flat-square)
+![macOS](https://img.shields.io/badge/macOS-✓-A2AAAD?style=flat-square&logo=apple&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-✓-FCC624?style=flat-square&logo=linux&logoColor=black)
+![Windows](https://img.shields.io/badge/Windows-✓-0078D4?style=flat-square&logo=windows&logoColor=white)
+
+</div>
+
+
+
 # agent-kit
 
 换电脑不用重装一遍 agent 环境。
