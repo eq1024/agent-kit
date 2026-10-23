@@ -1,5 +1,7 @@
 # AGENTS.md
 
+> 位置事实（容易搞错，先记住）：Codex 的用户级 skill 目录是 `$HOME/.agents/skills`，**不是** `~/.codex/skills`。全局指令才是 `~/.codex/AGENTS.md`。仓库级 skill 放在 `.agents/skills`。
+
 给在这个仓库里干活的 agent 看的。`README.md` 是给人看的，这里才是操作规则。
 
 这是**仓库级**说明，只在本仓库里生效。要装到 `~/.codex/AGENTS.md` 的全局版本是 `config/codex-AGENTS.md`，两者别搞混。
@@ -71,7 +73,7 @@ HOME=/tmp/fresh node cli.mjs apply           # mac / linux
 ## 已知坑
 
 - `analyze-frontend` 原版要求把 `prompts/analysis.md` 传给 `Agent` 工具（`subagent_type: general-purpose`）。不是每个宿主都有这个工具，已改成让执行者自己按方法论跑。**不要改回去。**
-- `~/.agents/skills`、`~/.claude/skills`、`~/.pi/agent/skills` 里的副本当前目标 agent 读不到。不要在那些目录里改东西。
+- `~/.codex/skills` 不在 Codex 的官方扫描路径里（用户级是 `~/.agents/skills`）。早期把 skill 放那里是无效的，别再往那儿装。
 - mattpocock 用 `plugin add mattpocock-skills@mattpocock` 会一次装 30 个，和「只要 7 个」冲突。用 `npx skills add ... --skill <名字>`。
 - context7 的 `npx ctx7 setup` 目前只支持 cursor / claude / opencode，其他 agent 要按 all-clients 文档手动配 MCP。
 - 详见 `docs/mcp.md`、`docs/plugins.md`。

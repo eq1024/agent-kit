@@ -17,7 +17,8 @@
 
 ```bash
 node --version    # 需要 >= 18
-ls ~/.codex       # 需要存在：config.toml、skills/
+ls ~/.codex       # 需要存在 config.toml
+ls ~/.agents      # skill 装在这里（没有就让 apply 创建）
 ```
 
 目标目录不存在就先让用户装好对应工具并登录一次，然后停下来等。
@@ -26,7 +27,7 @@ ls ~/.codex       # 需要存在：config.toml、skills/
 
 | 宿主 | skill 目录 | 全局说明 | MCP 配置 | mcp 子命令 |
 |---|---|---|---|---|
-| Codex | `~/.codex/skills` | `~/.codex/AGENTS.md` | `~/.codex/config.toml` | `codex mcp add` |
+| Codex | `~/.agents/skills` | `~/.codex/AGENTS.md` | `~/.codex/config.toml` | `codex mcp add` |
 | Claude Code | `~/.claude/skills` | `~/.claude/CLAUDE.md` | `~/.claude.json` | `claude mcp add` |
 | pi | `~/.pi/agent/skills` | `~/.pi/agent/AGENTS.md` | `~/.pi/agent/mcp.json` | `pi mcp add` |
 

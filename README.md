@@ -21,7 +21,7 @@
 
 换电脑不用重装一遍 agent 环境。
 
-这是一个环境清单，不是应用程序。它保存我每天在用的 agent 配置：15 个 skill、5 个 MCP、1 个插件，以及全局 `AGENTS.md`。
+这是一个环境清单，不是应用程序。它保存我每天在用的 agent 配置：16 个 skill、5 个 MCP、1 个插件，以及全局 `AGENTS.md`。
 
 ## 怎么用
 
@@ -51,6 +51,7 @@
 |---|---|
 | design-taste-frontend | 前端视觉品味，带 247 个站点研究库 |
 | frontend-design | Anthropic 官方前端设计 |
+| archify | 一句话或一个仓库 → 可交互 HTML 架构图 / 解释页 |
 | mattpocock 7 个 | grill-me、grill-with-docs、handoff、tdd、teach、to-spec、setup-matt-pocock-skills |
 | i-have-adhd（插件） | 回复格式：先行动、编号、无废话 |
 

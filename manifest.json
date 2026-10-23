@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 5,
   "name": "agent-kit",
   "description": "agent 全局环境清单：自建的用代码装，第三方交给 agent 按官方文档装。三端通用。",
   "target": "codex",
@@ -7,8 +7,9 @@
     "codex": {
       "root": "~/.codex",
       "config": "~/.codex/config.toml",
-      "skills": "~/.codex/skills",
-      "instructions": "~/.codex/AGENTS.md"
+      "skills": "~/.agents/skills",
+      "instructions": "~/.codex/AGENTS.md",
+      "skillsNote": "Codex 官方 user scope 是 $HOME/.agents/skills，不是 ~/.codex/skills"
     },
     "claude": {
       "root": "~/.claude",
@@ -136,6 +137,19 @@
       "interactive": true,
       "hint": "腾讯云 CloudBase 官方。完整路径有两条：(A) Codex App 插件市场装 `TencentCloudBase/CloudBase-MCP`（main 分支），MCP + Skills + Hooks 一起装，推荐；(B) 只要 MCP：`npm i -g @cloudbase/cloudbase-mcp` 然后 `codex mcp add cloudbase --env INTEGRATION_IDE=CodeX -- cloudbase-mcp`，Windows 要写成 `... -- cmd /c cloudbase-mcp`。远端模式只需填地址，登录走浏览器 OAuth，密钥不落配置文件；本地模式才需要 TENCENTCLOUD_SECRETID/KEY。首次用要先登录并选环境。",
       "verify": "codex mcp list 里出现 cloudbase；工具数不为 0（为 0 见官方 FAQ）；能执行 queryEnv 拿到环境信息"
+    },
+    {
+      "id": "archify",
+      "kind": "skill",
+      "source": "https://github.com/tt-a1i/archify",
+      "docs": "https://github.com/tt-a1i/archify#quick-start",
+      "follow": "latest",
+      "provides": [
+        "archify"
+      ],
+      "installer": "npx skills add tt-a1i/archify -g",
+      "hint": "把一句话或一个仓库变成可交互的 HTML 架构图 / 解释页。官方就一条命令：`npx skills add tt-a1i/archify -g`，装到 ~/.agents/skills（Codex 的 user scope 正是这里）。没有 npm 包要装，Node >= 18。想先试不装：`npx skills use tt-a1i/archify@archify`。嫌它的更新检查发网络请求就设 ARCHIFY_UPDATE_CHECK_DISABLED=1。会产出单个 HTML 文件，四种风格、明暗主题，可导长图或打印 PDF。",
+      "verify": "~/.agents/skills/archify/SKILL.md 存在；新会话里让它画一张调用链能产出 HTML"
     },
     {
       "id": "mattpocock-skills",

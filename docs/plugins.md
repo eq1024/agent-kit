@@ -27,7 +27,7 @@ npx skills add mattpocock/skills --skill tdd --skill grill-me
 
 ### 本机状态
 
-7 个都在 `~/.codex/skills/`。原本只在 `~/.agents/skills/` 里，而当前宿主只读 `~/.codex/skills`，2026-10-23 已同步。
+7 个都在 `~/.agents/skills/`，这也是 Codex 的用户级 skill 目录。
 
 ---
 
@@ -68,3 +68,32 @@ codex plugin add i-have-adhd@i-have-adhd
 ### 兜底
 
 插件装不上（离线、市场挂了）时，`config/codex-AGENTS.md` 里的 `## Output style` 段单独也能起到 80% 的作用。
+
+---
+
+## archify
+
+- 仓库：https://github.com/tt-a1i/archify
+- 作用：把一句话或一个仓库变成**可交互的 HTML**。架构图、时序图、数据流、ERD、时间线，或者「一页回答」形式的解释页。单文件输出，四种风格、明暗主题，可导长图或打印 PDF。
+- 版本：v3.2.0，MIT，skills.sh 上 130K+ 安装。
+
+### 装法
+
+```bash
+npx skills add tt-a1i/archify -g
+```
+
+一条命令，装到 `~/.agents/skills/archify`（Codex 的 user scope 正是这里）。没有 npm 包要装，Node >= 18。
+
+想先试不落地：
+
+```bash
+npx skills use tt-a1i/archify@archify
+```
+
+### 坑
+
+1. 体积 **18MB**（`renderers/`、`examples/`、`locales/` 都带上了）。比其它 skill 大两个数量级，属正常。
+2. `npx skills add` 会顺带尝试其它宿主（PromptScript 之类）并报一条 `Failed to install 1`，**不影响 archify 本身**，它已经装好了。
+3. 它默认会发一个 GET 到官方 manifest 检查新版本（24 小时一次，不带任何项目数据）。不想让它联网就设 `ARCHIFY_UPDATE_CHECK_DISABLED=1`。
+4. 用法不是 `/archify`，而是自然语言：「用它画出 X」「把这段回答做成一页」。
