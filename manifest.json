@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "name": "agent-kit",
   "description": "Codex 全局环境清单：自建的用代码装，第三方交给 agent 按官方文档装。三端通用。",
   "target": "codex",
@@ -7,6 +7,7 @@
   "targets": {
     "codex": {
       "root": "~/.codex",
+      "config": "~/.codex/config.toml",
       "skills": "~/.codex/skills"
     }
   },
@@ -37,38 +38,65 @@
 
   "agentTasks": [
     {
+      "id": "context7-mcp",
+      "kind": "mcp",
+      "transport": "http",
+      "docs": "https://github.com/upstash/context7",
+      "follow": "latest",
+      "provides": ["context7-mcp"],
+      "installer": "npx ctx7 setup",
+      "needs": ["CONTEXT7_API_KEY"],
+      "interactive": true,
+      "hint": "官方安装器 `npx ctx7 setup` 会 OAuth 认证、生成 API key、并装好配套 skill（`npx ctx7 remove` 卸载）。但它只列了 --cursor / --claude / --opencode，不支持 codex 就按 https://context7.com/docs/resources/all-clients 手动配。MCP 型（https://mcp.context7.com/mcp，Authorization: Bearer）和 CLI+Skills 型（ctx7 命令）二选一，本机用的是 MCP 型。",
+      "verify": "codex mcp list 里出现 context7；~/.codex/skills/context7-mcp/SKILL.md 存在"
+    },
+    {
+      "id": "memos-mcp",
+      "kind": "mcp",
+      "transport": "http",
+      "docs": "https://usememos.com/docs/integrations/mcp",
+      "follow": "latest",
+      "needs": ["MEMOS_URL", "MEMOS_TOKEN"],
+      "interactive": true,
+      "hint": "Memos v0.27+ 自带 MCP，不需要装任何 npm 包。Streamable HTTP，地址是 `https://<你的实例>/mcp`，用 personal access token 做 Bearer。token 在 Memos 网页端「设置 → API 访问」里生成。v0.30 起工具名统一成 memo_* 前缀，别用旧的无前缀名。社区那些 memos-mcp npm 包都不要用——内置的就够了。",
+      "verify": "codex mcp list 里出现 memos；能列出 memos（工具名以 memo_ 开头）"
+    },
+    {
+      "id": "playwright-mcp",
+      "kind": "mcp",
+      "transport": "stdio",
+      "docs": "https://github.com/microsoft/playwright-mcp",
+      "follow": "latest",
+      "hint": "官方包 @playwright/mcp，npx 直接跑，无需预先安装。跨端差异：Windows 上 stdio 命令要写成 `cmd /c npx -y @playwright/mcp@latest`，mac/linux 直接 `npx -y @playwright/mcp@latest`。首次运行会下载浏览器内核，可能等几分钟。",
+      "verify": "codex mcp list 里出现 playwright；新开线程调用一次 browser_navigate 成功"
+    },
+    {
+      "id": "codegraph-mcp",
+      "kind": "mcp",
+      "transport": "stdio",
+      "docs": "https://github.com/colbymchenry/codegraph",
+      "follow": "latest",
+      "hint": "先全局装 `npm i -g @colbymchenry/codegraph`，再配 stdio 命令 `codegraph serve --mcp`。它自带运行时，无需额外依赖。注意 npm 上有多个同名 codegraph-mcp 山寨包，认准 @colbymchenry 这个 scope。项目里跑 `codegraph init` 建索引后工具才有内容。",
+      "verify": "codex mcp list 里出现 codegraph；在已索引的仓库里能调用 codegraph_explore"
+    },
+    {
+      "id": "cloudbase-mcp",
+      "kind": "mcp",
+      "transport": "stdio",
+      "docs": "https://docs.cloudbase.net/ai/cloudbase-ai-toolkit/ide-setup/openai-codex-cli",
+      "follow": "latest",
+      "interactive": true,
+      "hint": "腾讯云 CloudBase 官方。完整路径有两条：(A) Codex App 插件市场装 `TencentCloudBase/CloudBase-MCP`（main 分支），MCP + Skills + Hooks 一起装，推荐；(B) 只要 MCP：`npm i -g @cloudbase/cloudbase-mcp` 然后 `codex mcp add cloudbase --env INTEGRATION_IDE=CodeX -- cloudbase-mcp`，Windows 要写成 `... -- cmd /c cloudbase-mcp`。远端模式只需填地址，登录走浏览器 OAuth，密钥不落配置文件；本地模式才需要 TENCENTCLOUD_SECRETID/KEY。首次用要先登录并选环境。",
+      "verify": "codex mcp list 里出现 cloudbase；工具数不为 0（为 0 见官方 FAQ）；能执行 queryEnv 拿到环境信息"
+    },
+    {
       "id": "design-taste-frontend",
       "kind": "skill",
       "source": "https://github.com/Leonxlnx/taste-skill",
       "docs": "https://github.com/Leonxlnx/taste-skill",
       "targets": ["codex"],
       "follow": "latest",
-      "hint": "前端设计品味 skill，带 library/ 和 references/ 大目录（约 2.4MB）。装到 ~/.codex/skills/design-taste-frontend。"
-    },
-    {
-      "id": "context7-mcp",
-      "kind": "mcp",
-      "docs": "https://github.com/upstash/context7",
-      "follow": "latest",
-      "provides": ["context7-mcp"],
-      "installer": "npx ctx7 setup",
-      "needs": ["CONTEXT7_API_KEY"],
-      "targets": ["codex"],
-      "hint": "这个 skill 不是我写的，是 context7 官方安装器生成的：`npx ctx7 setup` 会 OAuth 认证、生成 API key、并装好配套 skill（`npx ctx7 remove` 可卸载）。优先跑它；README 目前只列了 --cursor / --claude / --opencode，不支持 codex 就按 all-clients 文档手动配 MCP，skill 用 setup 生成的那份，不要手抄内容。MCP 型和 CLI+Skills 型二选一，本机用的是 MCP 型。"
-    },
-    {
-      "id": "playwright-mcp",
-      "kind": "mcp",
-      "docs": "https://github.com/microsoft/playwright-mcp",
-      "targets": ["codex"],
-      "hint": "stdio 型，npx -y @playwright/mcp@latest。注意：Windows 上用 cmd /c 包裹，mac/linux 直接 npx。首次运行可能下载浏览器内核。"
-    },
-    {
-      "id": "codegraph-mcp",
-      "kind": "mcp",
-      "docs": "https://www.npmjs.com/package/@colbymchenry/codegraph",
-      "targets": ["codex"],
-      "hint": "stdio 型。先全局装 @colbymchenry/codegraph，再 codegraph serve --mcp。"
+      "hint": "前端设计品味 skill，带 library/ 和 references/ 大目录（约 2.4MB）。装到 ~/.codex/skills/design-taste-frontend，必须包含 SKILL.md。"
     }
   ],
 
@@ -76,18 +104,30 @@
     {
       "key": "CONTEXT7_API_KEY",
       "usedBy": "context7-mcp",
-      "howToGet": "跑 npx ctx7 setup 走 OAuth 自动生成，或去 https://context7.com/dashboard 手动取",
+      "howToGet": "npx ctx7 setup 走 OAuth 自动生成，或 https://context7.com/dashboard 手动取",
+      "envFile": "~/.agent-kit.env"
+    },
+    {
+      "key": "MEMOS_URL",
+      "usedBy": "memos-mcp",
+      "howToGet": "你自己的 Memos 实例地址，形如 https://memos.example.com（不要带 /mcp）",
+      "envFile": "~/.agent-kit.env"
+    },
+    {
+      "key": "MEMOS_TOKEN",
+      "usedBy": "memos-mcp",
+      "howToGet": "Memos 网页端 → 设置 → API 访问 → 创建 Access Token",
       "envFile": "~/.agent-kit.env"
     }
   ],
 
-  "notForCodex": [
+  "notUsed": [
     { "id": "frontend-design", "source": "https://github.com/anthropics/skills", "why": "之前装在 ~/.agents，Codex 用不到" },
-    { "id": "mattpocock-skills", "source": "https://github.com/mattpocock/skills", "why": "7 个 skill，之前装在 ~/.agents，Codex 没装。要的话在 agentTasks 里加一条" }
+    { "id": "mattpocock-skills", "source": "https://github.com/mattpocock/skills", "why": "7 个 skill，之前装在 ~/.agents，Codex 没装" }
   ],
 
   "machineSpecific": [
-    "config.toml 里的 model / model_provider / notify / projects / node_repl 都带本机绝对路径，不进仓库",
+    "~/.codex/config.toml 里的 model / model_provider / notify / projects / node_repl 都带本机绝对路径，不进仓库",
     "~/.codex/rules/default.rules 是会话自动生成的审批记录，不进仓库",
     "~/.codex/auth.json 是登录态，不进仓库"
   ]

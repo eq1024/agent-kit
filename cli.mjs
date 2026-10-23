@@ -41,11 +41,14 @@ function printTasks() {
   console.log(B('给 agent 的任务') + DIM('（按官方文档现查现装，不要照抄任何命令）\n'));
   for (const t of m.agentTasks) {
     const done = state.agentTasks?.[t.id];
-    console.log(`${done ? '✓' : '·'} ${B(t.id)}  ${DIM(t.kind)}`);
+    const tags = [t.kind, t.transport, t.interactive ? '需要用户操作' : ''].filter(Boolean);
+    console.log(`${done ? '✓' : '·'} ${B(t.id)}  ${DIM(tags.join(' · '))}`);
     if (t.docs) console.log(`   文档: ${t.docs}`);
     if (t.source && t.source !== t.docs) console.log(`   来源: ${t.source}`);
     if (t.needs?.length) console.log(`   需要密钥: ${t.needs.join(', ')}  (见 ~/.agent-kit.env)`);
+    if (t.provides?.length) console.log(`   配套 skill: ${t.provides.join(', ')}`);
     if (t.hint) console.log(`   要点: ${t.hint}`);
+    if (t.verify) console.log(`   验收: ${t.verify}`);
     if (done) console.log(`   上次: ${done.installedAt} ${done.version || ''} ${done.sourceCommit || ''}`.trimEnd());
     console.log('');
   }

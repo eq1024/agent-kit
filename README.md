@@ -29,16 +29,29 @@ node cli.mjs doctor     # 体检
 全部落在 `~/.codex/`：
 
 ```
-~/.codex/skills/      自建 3 个 + 第三方 skill
+~/.codex/skills/      自建 2 个 + 第三方 skill
 ~/.codex/AGENTS.md    全局指令
 ~/.codex/config.toml  MCP 配置（agent 写入，代码不碰）
 ```
+
+## 用的 5 个 MCP
+
+| MCP | 形态 | 密钥 |
+|---|---|---|
+| context7 | 官方安装器 `npx ctx7 setup`，带配套 skill | OAuth 自生成 |
+| memos | Memos v0.27+ 自带 `/mcp`，零安装 | 实例地址 + token |
+| playwright | `npx @playwright/mcp` | 无 |
+| codegraph | 全局 `@colbymchenry/codegraph` | 无 |
+| cloudbase | `@cloudbase/cloudbase-mcp` 或插件市场 | 远端 OAuth / 本地密钥 |
+
+详细端点、跨端差异、已知坑：`docs/mcp.md`。
 
 ## 你怎么维护
 
 1. 改自己的 skill → 改 `skills/` 目录
 2. 加第三方 skill / MCP → 在 `manifest.json` 的 `agentTasks` 加一条，只写来源、文档、要点，**不写命令**
-3. `git push`
+3. 新增或改 MCP → 同步更新 `docs/mcp.md`
+4. `git push`
 
 ## 跨端
 
